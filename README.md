@@ -52,3 +52,100 @@ This project demonstrates how real-world SaaS platforms securely manage users ac
 4. Backend validates credentials
 5. JWT token is issued
 6. All secured APIs require:
+
+Authorization: Bearer <JWT_TOKEN>
+
+
+---
+
+## 🏢 Tenant Isolation (Important Design Decision)
+
+- Tenant ID is **never accepted from request parameters**
+- Tenant context is extracted from **JWT claims**
+- This guarantees:
+- No cross-tenant access
+- No data leakage between organizations
+
+This mirrors how real SaaS platforms (e.g., CRM, ERP systems) enforce isolation.
+
+---
+
+## 📌 API Endpoints Overview
+
+### Public Endpoints
+- `POST /api/tenants` — Create a tenant
+- `POST /api/users` — Create initial user (bootstrap)
+- `POST /auth/login` — Login and receive JWT
+
+### Secured Endpoints (JWT Required)
+- `GET /api/users/tenant` — List users of authenticated tenant
+
+---
+
+## ▶️ Running the Project Locally
+
+### 1️⃣ Clone the repository
+
+git clone https://github.com/<your-username>/multi-tenant-saas-backend.git
+cd multi-tenant-saas-backend
+
+### 2️⃣ Configure JWT Secret
+
+Update application.properties:
+
+jwt.secret=your_secure_secret_key_here
+jwt.expiration=3600000
+
+### 3️⃣ Run the application
+mvn spring-boot:run
+
+
+The server starts on:
+
+http://localhost:8080
+---
+
+## 🧪 Testing the APIs
+
+- You can test APIs using Postman:
+
+- Create tenant
+
+- Create user
+
+- Login to get JWT
+
+- Call secured APIs with:
+
+- Authorization: Bearer <JWT_TOKEN>
+---
+
+
+## 🧠 What This Project Demonstrates
+
+- Real-world backend security patterns
+
+- Stateless authentication using JWT
+
+- Spring Security filter chains
+
+- Multi-tenant SaaS design principles
+
+- Clean separation between API and persistence layers
+
+
+---
+
+## 📈 Possible Enhancements
+
+- BCrypt password hashing
+
+- Role-based access control using @PreAuthorize
+
+- Refresh tokens
+
+- Pagination & filtering
+
+- PostgreSQL integration
+
+- Docker + cloud deployment
